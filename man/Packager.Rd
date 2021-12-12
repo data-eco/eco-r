@@ -27,9 +27,16 @@ An R6 class for assisting with the packaging of "Io" x "DataDAG" formatted data 
 \subsection{Method \code{new()}}{
 Creates a new "Packager" instance.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Packager$new()}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{Packager$new(recipe)}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{recipe}}{Io x DataDAG recipe}
+}
+\if{html}{\out{</div>}}
+}
 \subsection{Returns}{
 A new \code{Packager} object.
 }
@@ -40,14 +47,12 @@ A new \code{Packager} object.
 \subsection{Method \code{build_package()}}{
 Builds Io/DataDAG data package.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Packager$build_package(pkg_dir, data, row_metadata = NULL, col_metadata = NULL)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{Packager$build_package(data, row_metadata = NULL, col_metadata = NULL)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{pkg_dir}}{Path where data package should be generated}
-
 \item{\code{data}}{data.frame Main dataset}
 
 \item{\code{row_metadata}}{data.frame (Optional) row metadata}

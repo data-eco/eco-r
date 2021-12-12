@@ -17,8 +17,10 @@ Packager <- R6Class("Packager",
 
     #' @description
     #' Creates a new "Packager" instance.
+    #'
+    #' @param recipe Io x DataDAG recipe
     #' @return A new `Packager` object.
-    initialize = function() {
+    initialize = function(recipe) {
       private$conf_dir <- file.path(getwd(), "conf")
       private$schema_dir <- file.path(getwd(), "schema")
 
@@ -36,13 +38,10 @@ Packager <- R6Class("Packager",
     #' @description
     #' Builds Io/DataDAG data package.
     #'
-    #' @param pkg_dir Path where data package should be generated
     #' @param data data.frame Main dataset
     #' @param row_metadata data.frame (Optional) row metadata
     #' @param col_metadata data.frame (Optional) col metadata
-    build_package = function(pkg_dir, data, row_metadata=NULL, col_metadata=NULL) {
-      setwd(pkg_dir)
-
+    build_package = function(data, row_metadata=NULL, col_metadata=NULL) {
       # create package and add resources
       pkg <- create_package() %>%
         add_resource("data", expr)
