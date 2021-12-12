@@ -6,6 +6,7 @@
 #' @importFrom uuid UUIDgenerate
 #' @importFrom yaml read_yaml
 #' @name Packager
+#' @export
 #'
 NULL
 
