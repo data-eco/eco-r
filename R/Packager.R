@@ -139,6 +139,9 @@ Packager <- R6Class("Packager",
         node_mdata <- private$parse_metadata(node_metadata)
         dag_mdata <- private$parse_metadata(dag_metadata)
 
+        # initialize data package
+        pkg <- create_package()
+
         # add resources to data package
         i <- 1
 
@@ -166,7 +169,8 @@ Packager <- R6Class("Packager",
         pkg$`io-dag` <- existing_mdata$`io-dag`
 
         # apply any changes to dag-level metadata
-        for (key in dag_mdata) {
+        # limitation: changes must currently be made at the top-level of metadata..
+        for (key in names(dag_mdata)) {
           pkg$`io-dag`$metadata[[key]] <- dag_mdata[[key]]
         }
 
@@ -198,7 +202,7 @@ Packager <- R6Class("Packager",
     # @param annotations Vector of filepaths to annotation files, or string annotations
     # @param views Vector of filepaths to vega-lite views, or list representations of such views
     # @param action String to include as the "action" used to generate the node.
-    create_node = function(self, annotations, views, action='build_package') {
+    create_node = function(annotations, views, action='build_package') {
         # iso8601 date string
         now <- strftime(as.POSIXlt(Sys.time(), "UTC"), "%Y-%m-%dT%H:%M:%S%z")
 
@@ -251,7 +255,7 @@ Packager <- R6Class("Packager",
     # @param annot Either an annotation string, or a path to a plain-text file
     #
     # @return Annotation string
-    parse_annotation = function(self, annot) {
+    parse_annotation = function(annot) {
         if (file.exists(annot)) {
           readr::read_file(annot)
         } else {
@@ -265,7 +269,7 @@ Packager <- R6Class("Packager",
     # json file containg such a view.
     #
     # @return vega-lite view as a list
-    parse_view = function(self, view) {
+    parse_view = function(view) {
         if (file.exists(view)) {
           jsonlite::read_json(view)
         } else {
