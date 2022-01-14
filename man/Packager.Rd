@@ -2,9 +2,11 @@
 % Please edit documentation in R/Packager.R
 \name{Packager}
 \alias{Packager}
-\title{An R6 class for assisting with the packaging of "Io" x "DataDAG" formatted data packages}
+\title{An R6 class for assisting with the packaging of "Io" x "DataDAG" formatted data
+packages}
 \description{
-An R6 class for assisting with the packaging of "Io" x "DataDAG" formatted data packages
+An R6 class for assisting with the packaging of "Io" x "DataDAG" formatted data
+packages
 }
 \section{Public fields}{
 \if{html}{\out{<div class="r6-fields">}}
@@ -18,6 +20,7 @@ An R6 class for assisting with the packaging of "Io" x "DataDAG" formatted data 
 \itemize{
 \item \href{#method-new}{\code{Packager$new()}}
 \item \href{#method-build_package}{\code{Packager$build_package()}}
+\item \href{#method-update_package}{\code{Packager$update_package()}}
 \item \href{#method-clone}{\code{Packager$clone()}}
 }
 }
@@ -27,16 +30,9 @@ An R6 class for assisting with the packaging of "Io" x "DataDAG" formatted data 
 \subsection{Method \code{new()}}{
 Creates a new "Packager" instance.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Packager$new(recipe)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{Packager$new()}\if{html}{\out{</div>}}
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{recipe}}{Io x DataDAG recipe}
-}
-\if{html}{\out{</div>}}
-}
 \subsection{Returns}{
 A new \code{Packager} object.
 }
@@ -47,17 +43,79 @@ A new \code{Packager} object.
 \subsection{Method \code{build_package()}}{
 Builds Io/DataDAG data package.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Packager$build_package(data, row_metadata = NULL, col_metadata = NULL)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{Packager$build_package(
+  resources,
+  annotations = c(),
+  views = c(),
+  metadata = list(),
+  profile = "",
+  pkg_dir = "./",
+  include_summary = FALSE,
+  ...
+)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{data}}{data.frame Main dataset}
+\item{\code{resources}}{List of resources (dataframes/tibbles) to include in package}
 
-\item{\code{row_metadata}}{data.frame (Optional) row metadata}
+\item{\code{annotations}}{Vector of filepaths to annotation files, or string annotations}
 
-\item{\code{col_metadata}}{data.frame (Optional) col metadata}
+\item{\code{views}}{List of filepaths to vega-lite views, or list representations of such views}
+
+\item{\code{metadata}}{\link{Optional} Additional metadata to include, either as a list, or path to a yml/json file}
+
+\item{\code{profile}}{\link{Optional} Name of metadata profile to use for validation, or "", for none}
+
+\item{\code{pkg_dir}}{\link{Optional} Location where data package should be saved (default: "./")}
+
+\item{\code{include_summary}}{\link{Optional} Whether or not to compute & embed summary statistics at the time of package creation (default: FALSE)}
+
+\item{\code{...}}{\link{Optional} Additional global/DAG-level metadata to be included}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-update_package"></a>}}
+\if{latex}{\out{\hypertarget{method-update_package}{}}}
+\subsection{Method \code{update_package()}}{
+Updates an existing Io datapackage.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Packager$update_package(
+  existing,
+  resources,
+  annotations = c(),
+  views = c(),
+  metadata = list(),
+  profile = "",
+  pkg_dir = "./",
+  include_summary = False,
+  ...
+)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{existing}}{Path to existing datapackage.json to be extended}
+
+\item{\code{resources}}{List of names resources to include in the data package}
+
+\item{\code{annotations}}{Vector of filepaths to annotation files, or string annotations}
+
+\item{\code{views}}{Vector of filepaths to vega-lite views, or dict representations of such views}
+
+\item{\code{metadata}}{\link{Optional} Additional metadata to include, either as a dict, or path to a yml/json file}
+
+\item{\code{profile}}{\link{Optional} Name of metadata profile to use for validation, or "", for none}
+
+\item{\code{pkg_dir}}{\link{Optional} Location where data package should be saved (default: "./")}
+
+\item{\code{include_summary}}{\link{Optional} Whether or not to compute & embed summary statistics at the time of package creation (default: False)}
+
+\item{\code{...}}{\link{Optional} Additional global/DAG-level metadata to be included}
 }
 \if{html}{\out{</div>}}
 }
