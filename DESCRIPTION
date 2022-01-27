@@ -1,5 +1,5 @@
-Package: iodat
-Title: Io x DataDAGs
+Package: eco
+Title: "eco" data ecosystem R lib
 Version: 0.6.0
 Authors@R: 
     person("V. Keith", "Hughitt", , "keith.hughitt@nih.gov", role = c("aut", "cre"),

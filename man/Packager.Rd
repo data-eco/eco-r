@@ -2,16 +2,16 @@
 % Please edit documentation in R/Packager.R
 \name{Packager}
 \alias{Packager}
-\title{An R6 class for assisting with the packaging of "Io" x "DataDAG" formatted data
+\title{An R6 class for assisting with creating and interacting with "eco" data packages
 packages}
 \description{
-An R6 class for assisting with the packaging of "Io" x "DataDAG" formatted data
+An R6 class for assisting with creating and interacting with "eco" data packages
 packages
 }
 \section{Public fields}{
 \if{html}{\out{<div class="r6-fields">}}
 \describe{
-\item{\code{recipe}}{Input Io recipe.}
+\item{\code{recipe}}{Input eco recipe.}
 }
 \if{html}{\out{</div>}}
 }
@@ -41,17 +41,17 @@ A new \code{Packager} object.
 \if{html}{\out{<a id="method-build_package"></a>}}
 \if{latex}{\out{\hypertarget{method-build_package}{}}}
 \subsection{Method \code{build_package()}}{
-Builds Io/DataDAG data package.
+Builds an eco data package.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Packager$build_package(
   resources,
   annotations = c(),
   views = c(),
-  metadata = list(),
+  node_metadata = list(),
+  dag_metadata = list(),
   profile = "",
   pkg_dir = "./",
-  include_summary = FALSE,
-  ...
+  include_summary = FALSE
 )}\if{html}{\out{</div>}}
 }
 
@@ -64,15 +64,20 @@ Builds Io/DataDAG data package.
 
 \item{\code{views}}{List of filepaths to vega-lite views, or list representations of such views}
 
-\item{\code{metadata}}{\link{Optional} Additional metadata to include, either as a list, or path to a yml/json file}
+\item{\code{node_metadata}}{\link{Optional} Additional node-level metadata to include,
+either as a list, or path to a yml/json file; Node level metadata is \emph{not}
+carried over to child nodes.}
+
+\item{\code{dag_metadata}}{\link{Optional} Additional dag-level metadata to include,
+either as a list, or path to a yml/json file; DAG-level metadata \emph{is} copied over
+to child packages by default; if the same field is specified downstream, the
+value of the field is updated.}
 
 \item{\code{profile}}{\link{Optional} Name of metadata profile to use for validation, or "", for none}
 
 \item{\code{pkg_dir}}{\link{Optional} Location where data package should be saved (default: "./")}
 
 \item{\code{include_summary}}{\link{Optional} Whether or not to compute & embed summary statistics at the time of package creation (default: FALSE)}
-
-\item{\code{...}}{\link{Optional} Additional global/DAG-level metadata to be included}
 }
 \if{html}{\out{</div>}}
 }
@@ -81,18 +86,18 @@ Builds Io/DataDAG data package.
 \if{html}{\out{<a id="method-update_package"></a>}}
 \if{latex}{\out{\hypertarget{method-update_package}{}}}
 \subsection{Method \code{update_package()}}{
-Updates an existing Io datapackage.
+Updates an existing eco datapackage.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Packager$update_package(
   existing,
   resources,
   annotations = c(),
   views = c(),
-  metadata = list(),
+  node_metadata = list(),
+  dag_metadata = list(),
   profile = "",
   pkg_dir = "./",
-  include_summary = False,
-  ...
+  include_summary = False
 )}\if{html}{\out{</div>}}
 }
 
@@ -107,15 +112,20 @@ Updates an existing Io datapackage.
 
 \item{\code{views}}{Vector of filepaths to vega-lite views, or dict representations of such views}
 
-\item{\code{metadata}}{\link{Optional} Additional metadata to include, either as a dict, or path to a yml/json file}
+\item{\code{node_metadata}}{\link{Optional} Additional node-level metadata to include,
+either as a list, or path to a yml/json file; Node level metadata is \emph{not}
+carried over to child nodes.}
+
+\item{\code{dag_metadata}}{\link{Optional} Additional dag-level metadata to include,
+either as a list, or path to a yml/json file; DAG-level metadata \emph{is} copied over
+to child packages by default; if the same field is specified downstream, the
+value of the field is updated.}
 
 \item{\code{profile}}{\link{Optional} Name of metadata profile to use for validation, or "", for none}
 
 \item{\code{pkg_dir}}{\link{Optional} Location where data package should be saved (default: "./")}
 
 \item{\code{include_summary}}{\link{Optional} Whether or not to compute & embed summary statistics at the time of package creation (default: False)}
-
-\item{\code{...}}{\link{Optional} Additional global/DAG-level metadata to be included}
 }
 \if{html}{\out{</div>}}
 }

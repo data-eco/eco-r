@@ -1,4 +1,4 @@
-#' An R6 class for assisting with the packaging of "Io" x "DataDAG" formatted data
+#' An R6 class for assisting with creating and interacting with "eco" data packages
 #' packages
 #'
 #' @importFrom frictionless add_resource create_package read_package
@@ -14,7 +14,7 @@ NULL
 
 Packager <- R6Class("Packager",
   public = list(
-    #' @field recipe Input Io recipe.
+    #' @field recipe Input eco recipe.
     recipe = NULL,
 
     #' @description
@@ -22,11 +22,11 @@ Packager <- R6Class("Packager",
     #'
     #' @return A new `Packager` object.
     initialize = function() {
-      private$schema_dir <- system.file("extdata", "profiles", package = "iodat")
+      private$schema_dir <- system.file("extdata", "profiles", package = "eco")
     },
 
     #' @description
-    #' Builds Io/DataDAG data package.
+    #' Builds an eco data package.
     #'
     #' @param resources       List of resources (dataframes/tibbles) to include in package
     #' @param annotations     Vector of filepaths to annotation files, or string annotations
@@ -82,18 +82,18 @@ Packager <- R6Class("Packager",
 
       node$metadata <- node_mdata
 
-      # add io-dag section to data package metadata
-      pkg$`io-dag` <- list(
+      # add "eco" section to data package metadata
+      pkg$eco <- list(
           "uuid" = node_uuid,
           "nodes" = list(),
           "edges" = c()
       )
-      pkg$`io-dag`$nodes[[node_uuid]] <- node
+      pkg$eco$nodes[[node_uuid]] <- node
 
       # add dag-level metadata fields, if provided
-      pkg$`io-dag`[["metadata"]] <- dag_mdata
+      pkg$eco[["metadata"]] <- dag_mdata
 
-      #reserved_keys <- names(pkg$`io-dag`)
+      #reserved_keys <- names(pkg$eco)
 
       # kwargs <- list(...)
       #
@@ -102,7 +102,7 @@ Packager <- R6Class("Packager",
       #         stop(glue("Attempting to use reserved metadata field: {key}"))
       #     }
       #
-      #     pkg$`io-dag`[[key]] <- kwargs[[key]]
+      #     pkg$eco[[key]] <- kwargs[[key]]
       # }
 
       # write data package to disk
@@ -112,7 +112,7 @@ Packager <- R6Class("Packager",
 
 
     #' @description
-    #' Updates an existing Io datapackage.
+    #' Updates an existing eco datapackage.
     #'
     #' @param existing         Path to existing datapackage.json to be extended
     #' @param resources        List of names resources to include in the data package
@@ -166,21 +166,21 @@ Packager <- R6Class("Packager",
         node_uuid <- UUIDgenerate()
 
         # copy over metadata section from previous stage
-        pkg$`io-dag` <- existing_mdata$`io-dag`
+        pkg$eco <- existing_mdata$eco
 
         # apply any changes to dag-level metadata
         # limitation: changes must currently be made at the top-level of metadata..
         for (key in names(dag_mdata)) {
-          pkg$`io-dag`$metadata[[key]] <- dag_mdata[[key]]
+          pkg$eco$metadata[[key]] <- dag_mdata[[key]]
         }
 
         # store uuid of previous step, and update
-        prev_uuid <- pkg$`io-dag`$uuid
-        pkg$`io-dag`$uuid <- node_uuid
+        prev_uuid <- pkg$eco$uuid
+        pkg$eco$uuid <- node_uuid
 
         # update provenance DAG
-        pkg$`iodag`$nodes[[node_uuid]] <- node
-        pkg$`iodag`$edges <- append(pkg$`iodag`$edges, list(
+        pkg$eco$nodes[[node_uuid]] <- node
+        pkg$eco$edges <- append(pkg$eco$edges, list(
             "source" = prev_uuid,
             "target" = node_uuid
         ))
@@ -270,7 +270,7 @@ Packager <- R6Class("Packager",
     #
     # @return vega-lite view as a list
     parse_view = function(view) {
-        if (file.exists(view)) {
+        if (assertthat::is.string(view) && file.exists(view)) {
           jsonlite::read_json(view)
         } else {
           view
