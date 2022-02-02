@@ -86,7 +86,7 @@ Packager <- R6Class("Packager",
       pkg$eco <- list(
           "uuid" = node_uuid,
           "nodes" = list(),
-          "edges" = c()
+          "edges" = list() 
       )
       pkg$eco$nodes[[node_uuid]] <- node
 
@@ -180,10 +180,11 @@ Packager <- R6Class("Packager",
 
         # update provenance DAG
         pkg$eco$nodes[[node_uuid]] <- node
-        pkg$eco$edges <- append(pkg$eco$edges, list(
+
+        pkg$eco$edges <- append(pkg$eco$edges, list(list(
             "source" = prev_uuid,
             "target" = node_uuid
-        ))
+        )))
 
         # write data package to disk
         pkg %>%
