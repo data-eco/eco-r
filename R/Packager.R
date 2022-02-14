@@ -41,7 +41,7 @@ Packager <- R6Class("Packager",
     #' @param profile         [Optional] Name of metadata profile to use for validation, or "", for none
     #' @param pkg_dir         [Optional] Location where data package should be saved (default: "./")
     #' @param include_summary [Optional] Whether or not to compute & embed summary statistics at the time of package creation (default: FALSE)
-    build_package = function(resources, annotations=c(), views=c(), 
+    build_package = function(resources, annotations=list(), views=list(), 
                              node_metadata=list(),
                              dag_metadata=list(), profile="", pkg_dir="./",
                              include_summary=FALSE) {
@@ -128,7 +128,7 @@ Packager <- R6Class("Packager",
     #' @param profile          [Optional] Name of metadata profile to use for validation, or "", for none
     #' @param pkg_dir          [Optional] Location where data package should be saved (default: "./")
     #' @param include_summary  [Optional] Whether or not to compute & embed summary statistics at the time of package creation (default: False)
-    update_package = function(existing, resources, annotations=c(), views=c(),
+    update_package = function(existing, resources, annotations=list(), views=list(),
                               node_metadata=list(), dag_metadata=list(), 
                               profile="", pkg_dir="./",
                               include_summary=False) {
@@ -195,7 +195,7 @@ Packager <- R6Class("Packager",
     config = NULL,
     conf_dir = NULL,
     schema_dir = NULL,
-    version = "0.6.0",
+    version = "0.6.1",
 
     # @description
     # Generates metadata block for a new node in the DAG
@@ -208,21 +208,21 @@ Packager <- R6Class("Packager",
         now <- strftime(as.POSIXlt(Sys.time(), "UTC"), "%Y-%m-%dT%H:%M:%S%z")
 
         node <- list(
-            "name" = "io-r",
+            "name" = "eco-r",
             "action" = action,
             "time" =  now,
             "version" = private$version,
-            "annot" = c(),
-            "views" = c()
+            "annot" = list(),
+            "views" = list()
         )
 
         # add annotations and views, if present
         for (annot in annotations) {
-            node[["annot"]] <- append(node[["annot"]], private$parse_annotation(annot))
+            node$annot <- append(node$annot, list(private$parse_annotation(annot)))
         }
 
         for (view in views) {
-            node[["views"]] <- append(node[["views"]], private$parse_view(view))
+            node$views <- append(node$views, list(private$parse_view(view)))
         }
 
         node

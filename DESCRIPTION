@@ -1,6 +1,6 @@
 Package: eco
 Title: "eco" data ecosystem R lib
-Version: 0.6.0
+Version: 0.6.1
 Authors@R: 
     person("V. Keith", "Hughitt", , "keith.hughitt@nih.gov", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0003-0787-9559"))
